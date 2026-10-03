@@ -5,6 +5,7 @@
 **/vagrant_ansible_inventory
 *.iml
 temp
+.terraform.tfstate.lock.info
 contrib/offline/offline-files
 contrib/offline/offline-files.tar.gz
 .idea
@@ -16,6 +17,8 @@ contrib/offline/offline-files.tar.gz
 *.tfstate*backup
 *.lock.hcl
 .terraform/
+.terraform.tfstate
+terraform-sa-key.json
 contrib/terraform/aws/credentials.tfvars
 .terraform.lock.hcl
 /ssh-bastion.conf
@@ -23,6 +26,8 @@ contrib/terraform/aws/credentials.tfvars
 *~
 vagrant/
 plugins/mitogen
+terraform.tfvars
+backend.hcl
 
 # Ansible inventory
 inventory/*
