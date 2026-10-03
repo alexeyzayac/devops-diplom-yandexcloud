@@ -37,6 +37,30 @@ resource "yandex_vpc_security_group" "k8s_master" {
     protocol       = "ANY"
     v4_cidr_blocks = ["192.168.0.0/16"]
   }
+
+  ingress {
+    description    = "Трафик между подами и сервисами"
+    protocol       = "ANY"
+    from_port      = 0
+    to_port        = 65535
+    v4_cidr_blocks = ["10.200.0.0/16", "10.210.0.0/16"]
+  }
+
+  ingress {
+    description       = "Проверки состояния от балансировщика"
+    protocol          = "TCP"
+    predefined_target = "loadbalancer_healthchecks"
+    from_port         = 0
+    to_port           = 65535
+  }
+
+  ingress {
+    description       = "Служебный трафик между мастером и нодами"
+    protocol          = "ANY"
+    predefined_target = "self_security_group"
+    from_port         = 0
+    to_port           = 65535
+  }
 }
 
 resource "yandex_vpc_security_group" "k8s_nodes" {
@@ -69,10 +93,34 @@ resource "yandex_vpc_security_group" "k8s_nodes" {
   }
 
   ingress {
+    description    = "Трафик между подами и сервисами"
+    protocol       = "ANY"
+    from_port      = 0
+    to_port        = 65535
+    v4_cidr_blocks = ["10.200.0.0/16", "10.210.0.0/16"]
+  }
+
+  ingress {
     description    = "Диапазон NodePort для доступа из интернета"
     from_port      = 30000
     to_port        = 32767
     protocol       = "TCP"
     v4_cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description       = "Проверки состояния от балансировщика"
+    protocol          = "TCP"
+    predefined_target = "loadbalancer_healthchecks"
+    from_port         = 0
+    to_port           = 65535
+  }
+
+  ingress {
+    description       = "Служебный трафик внутри группы (мастер <-> ноды)"
+    protocol          = "ANY"
+    predefined_target = "self_security_group"
+    from_port         = 0
+    to_port           = 65535
   }
 }

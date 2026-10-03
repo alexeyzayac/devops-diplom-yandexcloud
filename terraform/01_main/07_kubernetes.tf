@@ -2,7 +2,7 @@
 
 resource "yandex_kubernetes_cluster" "k8s_cluster" {
   depends_on = [
-    yandex_resourcemanager_folder_iam_binding.k8s_sa_roles,
+    yandex_resourcemanager_folder_iam_member.k8s_sa_roles,
     yandex_kms_symmetric_key_iam_binding.k8s_secrets_access,
   ]
 
@@ -97,10 +97,8 @@ resource "yandex_kubernetes_node_group" "k8s_nodes" {
   }
 
   scale_policy {
-    auto_scale {
-      min     = 3
-      max     = 6
-      initial = 3
+    fixed_scale {
+      size = 3
     }
   }
 

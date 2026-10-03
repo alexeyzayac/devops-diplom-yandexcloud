@@ -25,9 +25,19 @@ resource "local_file" "sa_key_file" {
   file_permission = "0600"
 }
 
-resource "yandex_resourcemanager_folder_iam_member" "terraform_editor" {
+locals {
+  terraform_roles = [
+    "editor",                 # Создание, изменение, удаление любых ресурсов в каталоге
+    "iam.admin",              # Управление SA и их ключами
+    "resource-manager.admin", # Управление доступом к каталогу
+    "kms.admin",              # Управление доступом к KMS-ключам
+  ]
+}
+
+resource "yandex_resourcemanager_folder_iam_member" "terraform_roles" {
+  for_each  = toset(local.terraform_roles)
   folder_id = var.folder_id
-  role      = "editor"
+  role      = each.value
   member    = "serviceAccount:${yandex_iam_service_account.terraform.id}"
 }
 
@@ -35,4 +45,3 @@ resource "yandex_iam_service_account_static_access_key" "terraform_key" {
   description        = "Статический ключ для S3 backend"
   service_account_id = yandex_iam_service_account.terraform.id
 }
-

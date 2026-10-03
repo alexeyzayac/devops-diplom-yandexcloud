@@ -28,7 +28,7 @@ vagrant/
 plugins/mitogen
 terraform.tfvars
 backend.hcl
-
+zayac-project-ssh*
 # Ansible inventory
 inventory/*
 !inventory/local
