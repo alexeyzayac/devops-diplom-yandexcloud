@@ -6,7 +6,7 @@ resource "yandex_vpc_network" "main" {
 }
 
 resource "yandex_vpc_subnet" "public_a" {
-  description    = "Публичная подсеть для доступа в интернет"
+  description    = "Публичная подсеть A для доступа в интернет"
   name           = "${var.flow}-public-a"
   zone           = var.zone_a
   network_id     = yandex_vpc_network.main.id
@@ -14,7 +14,7 @@ resource "yandex_vpc_subnet" "public_a" {
 }
 
 resource "yandex_vpc_subnet" "public_b" {
-  description    = "Публичная подсеть для доступа в интернет"
+  description    = "Публичная подсеть B для доступа в интернет"
   name           = "${var.flow}-public-b"
   zone           = var.zone_b
   network_id     = yandex_vpc_network.main.id
@@ -22,7 +22,7 @@ resource "yandex_vpc_subnet" "public_b" {
 }
 
 resource "yandex_vpc_subnet" "public_d" {
-  description    = "Публичная подсеть для доступа в интернет"
+  description    = "Публичная подсеть D для доступа в интернет"
   name           = "${var.flow}-public-d"
   zone           = var.zone_d
   network_id     = yandex_vpc_network.main.id

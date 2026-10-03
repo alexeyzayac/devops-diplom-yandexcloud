@@ -44,3 +44,10 @@ variable "zone_d" {
   default     = "ru-central1-d"
   nullable    = false
 }
+
+variable "k8s_version" {
+  description = "Версия Kubernetes"
+  type        = string
+  default     = "1.30"
+  nullable    = false
+}

@@ -7,7 +7,6 @@ resource "yandex_kms_symmetric_key" "bucket_key" {
   rotation_period   = "8760h"
 }
 
-# Права terraform на использование ключа для шифрования/расшифровки
 resource "yandex_kms_symmetric_key_iam_binding" "bucket_key_encrypter" {
   symmetric_key_id = yandex_kms_symmetric_key.bucket_key.id
   role             = "kms.keys.encrypterDecrypter"

@@ -1,0 +1,78 @@
+# ./terraform/01_main/03_security_groups.tf
+
+resource "yandex_vpc_security_group" "k8s_master" {
+  name        = "${var.flow}-k8s-master-sg"
+  description = "SG для мастера Kubernetes"
+  network_id  = yandex_vpc_network.main.id
+
+  egress {
+    description    = "Разрешить весь исходящий трафик"
+    protocol       = "ANY"
+    v4_cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description    = "SSH-доступ для администрирования"
+    port           = 22
+    protocol       = "TCP"
+    v4_cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description    = "HTTPS к API-серверу"
+    port           = 443
+    protocol       = "TCP"
+    v4_cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description    = "K8s API"
+    port           = 6443
+    protocol       = "TCP"
+    v4_cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description    = "Трафик между мастером и нодами"
+    protocol       = "ANY"
+    v4_cidr_blocks = ["192.168.0.0/16"]
+  }
+}
+
+resource "yandex_vpc_security_group" "k8s_nodes" {
+  name        = "${var.flow}-k8s-nodes-sg"
+  description = "SG для worker-нод Kubernetes"
+  network_id  = yandex_vpc_network.main.id
+
+  egress {
+    description    = "Разрешить весь исходящий трафик"
+    protocol       = "ANY"
+    v4_cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description    = "SSH-доступ для администрирования"
+    port           = 22
+    protocol       = "TCP"
+    v4_cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description    = "Трафик от мастера к нодам"
+    protocol       = "ANY"
+    v4_cidr_blocks = ["192.168.0.0/16"]
+  }
+
+  ingress {
+    description    = "Трафик между нодами"
+    protocol       = "ANY"
+    v4_cidr_blocks = ["192.168.0.0/16"]
+  }
+
+  ingress {
+    description    = "Диапазон NodePort для доступа из интернета"
+    from_port      = 30000
+    to_port        = 32767
+    protocol       = "TCP"
+    v4_cidr_blocks = ["0.0.0.0/0"]
+  }
+}

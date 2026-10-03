@@ -8,7 +8,7 @@
 cd terraform/00_cloud_setup
 terraform init -upgrade
 terraform plan
-terraform apply --auto-approve 
+terraform apply --auto-approve
 # terraform destroy --auto-approve 
 ```
 
