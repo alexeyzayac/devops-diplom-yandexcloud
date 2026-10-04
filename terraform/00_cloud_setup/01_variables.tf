@@ -6,6 +6,12 @@ variable "bucket_name" {
   nullable    = false
 }
 
+variable "registry_name" {
+  description = "Имя Container Registry для Terraform"
+  type        = string
+  nullable    = false
+}
+
 variable "cloud_id" {
   description = "Идентификатор облака в Yandex Cloud"
   type        = string

@@ -27,10 +27,11 @@ resource "local_file" "sa_key_file" {
 
 locals {
   terraform_roles = [
-    "editor",                 # Создание, изменение, удаление любых ресурсов в каталоге
-    "iam.admin",              # Управление SA и их ключами
-    "resource-manager.admin", # Управление доступом к каталогу
-    "kms.admin",              # Управление доступом к KMS-ключам
+    "editor",                   # Создание, изменение, удаление любых ресурсов в каталоге
+    "iam.admin",                # Управление SA и их ключами
+    "resource-manager.admin",   # Управление доступом к каталогу
+    "kms.admin",                # Управление доступом к KMS-ключам
+    "container-registry.admin", # Управление доступом к Container Registry
   ]
 }
 

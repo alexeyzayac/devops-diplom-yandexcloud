@@ -20,3 +20,8 @@ output "kms_key_id" {
   description = "ID KMS-ключа для шифрования бакета"
   value       = yandex_kms_symmetric_key.bucket_key.id
 }
+
+output "container_registry_id" {
+  description = "ID Yandex Container Registry"
+  value       = yandex_container_registry.app_registry.id
+}

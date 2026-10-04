@@ -63,11 +63,13 @@ resource "yandex_kubernetes_node_group" "k8s_nodes" {
   version    = var.k8s_version
 
   instance_template {
+    name        = "k8s-node-${var.flow}-{instance.short_id}"
     platform_id = "standard-v3"
 
     resources {
-      cores  = 2
-      memory = 2
+      cores         = 2
+      memory        = 2
+      core_fraction = 20
     }
 
     boot_disk {
@@ -86,7 +88,7 @@ resource "yandex_kubernetes_node_group" "k8s_nodes" {
     }
 
     scheduling_policy {
-      preemptible = true # ← требование задания
+      preemptible = true
     }
 
     metadata = {

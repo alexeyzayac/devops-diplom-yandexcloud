@@ -1,4 +1,4 @@
-# ./terraform/00_cloud_setup/05_local_files.tf
+# ./terraform/00_cloud_setup/06_local_files.tf
 
 resource "local_file" "backend_env" {
   filename        = "${path.module}/../01_main/backend.hcl"
