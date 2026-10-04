@@ -7,6 +7,7 @@
 ```bash
 cd 00_cloud_setup
 terraform init -upgrade
+terraform validate
 terraform plan
 terraform apply --auto-approve
 cd ..
@@ -16,7 +17,8 @@ cd ..
 
 ```bash
 cd 01_main
-terraform init -reconfigure -backend-config=backend.hcl -upgrade
+terraform init -reconfigure -upgrade -backend-config=backend.hcl
+terraform validate
 terraform plan
 terraform apply --auto-approve 
 cd ..

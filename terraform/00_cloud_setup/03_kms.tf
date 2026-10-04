@@ -1,7 +1,7 @@
 # ./terraform/00_cloud_setup/03_kms.tf
 
 resource "yandex_kms_symmetric_key" "bucket_key" {
-  description       = "Симметричный KMS-ключ для шифрования S3 bucket ${var.bucket_name}"
+  description       = "KMS-ключ для шифрования S3 bucket ${var.bucket_name}"
   name              = "${var.bucket_name}-key"
   default_algorithm = "AES_256"
   rotation_period   = "8760h"
