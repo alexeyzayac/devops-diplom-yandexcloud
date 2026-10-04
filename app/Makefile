@@ -13,6 +13,7 @@ IMAGE       := cr.yandex/$(REGISTRY-ID)/$(IMAGE_NAME):$(TAG)
 
 up:
 	docker builder prune -af
+	yc container registry configure-docker
 	docker build -f $(DOCKERFILE) --provenance=false --sbom=false -t $(IMAGE) .
 	docker push $(IMAGE)
 	yc container image list --registry-id $(REGISTRY-ID)
