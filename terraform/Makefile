@@ -1,5 +1,5 @@
-TF_DIR_CS = terraform/00_cloud_setup
-TF_DIR_MAIN = terraform/01_main
+TF_DIR_CS = 00_cloud_setup
+TF_DIR_MAIN = 01_main
 
 .PHONY: fmt up down up_cloud_setup down_cloud_setup up_main down_main
 
@@ -20,7 +20,7 @@ down_cloud_setup:
 	rm -f  $(TF_DIR_CS)/terraform.tfstate.backup
 
 up_main:
-	cd $(TF_DIR_MAIN) && terraform init -reconfigure -upgrade -backend-config=backend.hcl
+	cd $(TF_DIR_MAIN) && terraform init -reconfigure -upgrade -backend-config=../secret/backend.hcl
 	cd $(TF_DIR_MAIN) && terraform validate
 	cd $(TF_DIR_MAIN) && terraform plan
 	cd $(TF_DIR_MAIN) && terraform apply --auto-approve

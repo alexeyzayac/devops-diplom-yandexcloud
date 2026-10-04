@@ -17,7 +17,7 @@ cd ..
 
 ```bash
 cd 01_main
-terraform init -reconfigure -upgrade -backend-config=backend.hcl
+terraform init -reconfigure -upgrade -backend-config=../secret/backend.hcl
 terraform validate
 terraform plan
 terraform apply --auto-approve 

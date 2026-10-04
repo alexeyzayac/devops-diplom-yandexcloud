@@ -5,6 +5,7 @@
 **/vagrant_ansible_inventory
 *.iml
 temp
+Makefile.vars
 .terraform.tfstate.lock.info
 contrib/offline/offline-files
 contrib/offline/offline-files.tar.gz
