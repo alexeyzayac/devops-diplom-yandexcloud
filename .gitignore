@@ -17,6 +17,8 @@ contrib/offline/offline-files.tar.gz
 *.tfstate
 *.tfstate*backup
 *.lock.hcl
+test.txt
+values.env
 .terraform/
 .terraform.tfstate
 terraform-sa-key.json

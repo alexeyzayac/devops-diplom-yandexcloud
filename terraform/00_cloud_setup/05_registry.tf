@@ -9,6 +9,25 @@ resource "yandex_container_registry" "app_registry" {
   }
 }
 
+resource "null_resource" "delete_all_images" {
+  triggers = {
+    registry_id = yandex_container_registry.app_registry.id
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = <<-EOT
+      REGISTRY_ID="${self.triggers.registry_id}"
+      IMAGE_IDS=$(yc container image list --registry-id "$REGISTRY_ID" --format json | jq -r '.[].id')
+      for img in $IMAGE_IDS; do
+        echo "Deleting image $img..."
+        yc container image delete "$img"
+      done
+    EOT
+    on_failure = continue
+  }
+}
+
 resource "null_resource" "scan_policy" {
   triggers = {
     registry_id = yandex_container_registry.app_registry.id

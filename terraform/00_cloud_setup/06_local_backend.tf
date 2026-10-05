@@ -20,3 +20,13 @@ resource "local_file" "make_vars" {
   EOT
   file_permission = "0644"
 }
+
+resource "local_file" "k8s_vars" {
+  filename = "${path.module}/../../k8s/values.env"
+  content  = <<-EOT
+    # ./k8s/values.env
+
+    APP_IMAGE=cr.yandex/${yandex_container_registry.app_registry.id}/diplom-app:v1
+  EOT
+  file_permission = "0644"
+}
