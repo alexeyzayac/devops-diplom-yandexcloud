@@ -1,10 +1,12 @@
+# ./terraform/Makefile
+
 TF_DIR_CS = 00_cloud_setup
 TF_DIR_MAIN = 01_main
 
 .PHONY: fmt up down up_cloud_setup down_cloud_setup up_main down_main
 
 fmt:
-	terraform fmt -recursive terraform/
+	terraform fmt -recursive ./
 
 up_cloud_setup:
 	cd $(TF_DIR_CS) && terraform init -upgrade

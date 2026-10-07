@@ -80,6 +80,21 @@ resource "yandex_vpc_security_group" "k8s_nodes" {
     protocol       = "TCP"
     v4_cidr_blocks = ["0.0.0.0/0"]
   }
+
+  ingress {
+    description    = "HTTP для приложений через LoadBalancer"
+    port           = 80
+    protocol       = "TCP"
+    v4_cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description    = "HTTP-альтернативый для приложений через LoadBalancer"
+    port           = 8080
+    protocol       = "TCP"
+    v4_cidr_blocks = ["0.0.0.0/0"]
+  }
+
   ingress {
     description    = "Трафик от мастера к нодам"
     protocol       = "ANY"
@@ -114,6 +129,13 @@ resource "yandex_vpc_security_group" "k8s_nodes" {
     predefined_target = "loadbalancer_healthchecks"
     from_port         = 0
     to_port           = 65535
+  }
+
+  ingress {
+    description    = "Health check от сетевого балансировщика (порт 10501)"
+    port           = 10501
+    protocol       = "TCP"
+    v4_cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {

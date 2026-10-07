@@ -12,8 +12,8 @@ resource "local_file" "backend_env" {
 }
 
 resource "local_file" "make_vars" {
-  filename = "${path.module}/../../app/Makefile.vars"
-  content  = <<-EOT
+  filename        = "${path.module}/../../app/Makefile.vars"
+  content         = <<-EOT
     # ./app/Makefile.vars
 
     REGISTRY-ID := ${yandex_container_registry.app_registry.id}
@@ -21,12 +21,14 @@ resource "local_file" "make_vars" {
   file_permission = "0644"
 }
 
-resource "local_file" "k8s_vars" {
-  filename = "${path.module}/../../k8s/values.env"
-  content  = <<-EOT
-    # ./k8s/values.env
+resource "local_file" "app_diplom_k8s_helm_vars" {
+  filename        = "${path.module}/../../k8s/app-diplom/chart/values.yaml"
+  content         = <<-EOT
+  ---
 
-    APP_IMAGE=cr.yandex/${yandex_container_registry.app_registry.id}/diplom-app:v1
+  image: cr.yandex/${yandex_container_registry.app_registry.id}/diplom-app:v1
+  
+  ...
   EOT
   file_permission = "0644"
 }

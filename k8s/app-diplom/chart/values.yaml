@@ -1,0 +1,39 @@
+# Образ приложения — сюда подставляем значение из values.env через --set или -f
+image: cr.yandex/crpjtvb9ssjrikmskh9e/diplom-app:v1
+
+replicaCount: 6
+
+namespace:
+  name: app-diplom
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 80
+
+resources:
+  requests:
+    cpu: "50m"
+    memory: "64Mi"
+  limits:
+    cpu: "200m"
+    memory: "128Mi"
+
+probes:
+  liveness:
+    path: /
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  readiness:
+    path: /
+    initialDelaySeconds: 3
+    periodSeconds: 5
+
+resourceQuota:
+  enabled: true
+  hard:
+    requests.cpu: "1"
+    requests.memory: "512Mi"
+    limits.cpu: "2"
+    limits.memory: "1Gi"
+    pods: "10"

@@ -1,0 +1,14 @@
+---
+
+{{- if .Values.resourceQuota.enabled }}
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: {{ .Values.namespace.name }}-quota
+  namespace: {{ .Values.namespace.name }}
+spec:
+  hard:
+    {{- toYaml .Values.resourceQuota.hard | nindent 4 }}
+{{- end }}
+
+...

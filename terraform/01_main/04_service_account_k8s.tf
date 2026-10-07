@@ -11,6 +11,8 @@ locals {
     "k8s.clusters.agent",               # Управление ресурсами кластера от имени SA: ноды, группы нод, балансировщики, диски
     "vpc.publicAdmin",                  # Управление публичными IP-адресами (нужно для NAT на нодах и внешнего IP мастера)
     "container-registry.images.puller", # Скачивание Docker-образов из Container Registry для подов и системных компонентов
+    "load-balancer.admin",              # Управление NLB и целевыми группами
+    "compute.viewer",                   # Чтение информации об инстансах для target group
   ]
 }
 
