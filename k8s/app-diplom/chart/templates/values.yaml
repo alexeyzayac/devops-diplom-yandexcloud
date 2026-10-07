@@ -1,5 +1,5 @@
 # Образ приложения — сюда подставляем значение из values.env через --set или -f
-image: cr.yandex/crpjtvb9ssjrikmskh9e/diplom-app:v1
+---
 
 replicaCount: 6
 
@@ -37,3 +37,5 @@ resourceQuota:
     limits.cpu: "2"
     limits.memory: "1Gi"
     pods: "10"
+
+...
