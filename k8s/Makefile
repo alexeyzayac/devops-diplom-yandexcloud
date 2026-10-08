@@ -16,7 +16,7 @@ managed_kubernetes:
 up_app-diplom:
 	helm upgrade --install $(K8S_APP_NAME) ./app-diplom/chart \
 	-n $(K8S_APP_NS) --create-namespace \
-	-f ./app-diplom/chart/values.yaml
+	-f ./app-diplom/values.yaml
 
 down_app-diplom:
 	helm uninstall $(K8S_APP_NAME) -n $(K8S_APP_NS) || true

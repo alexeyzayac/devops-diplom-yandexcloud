@@ -22,7 +22,7 @@ resource "local_file" "make_vars" {
 }
 
 resource "local_file" "app_diplom_k8s_helm_vars" {
-  filename        = "${path.module}/../../k8s/app-diplom/chart/values.yaml"
+  filename        = "${path.module}/../../k8s/app-diplom/values.yaml"
   content         = <<-EOT
   ---
 
