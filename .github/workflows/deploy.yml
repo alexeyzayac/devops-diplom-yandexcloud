@@ -42,15 +42,20 @@ jobs:
 
     - name: Deploy to Minikube using Helm
       run: |
-        mkdir -p $HOME/.kube
-        echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+        # Используем уже существующий kubeconfig на машине раннера
         export KUBECONFIG=$HOME/.kube/config
-
-        echo "image: cr.yandex/${{ secrets.REGISTRY_ID }}/diplom-app:${{ env.TAG }}" > k8s/app-diplom/values-image.yaml
-
+    
+        export PATH=$PATH:/usr/local/bin:/usr/bin:/home/main/.local/bin
+    
+        kubectl cluster-info
+    
+        echo "image: cr.yandex/${{ secrets.REGISTRY_ID }}/diplom-app:${{ env.TAG }}" \
+          > k8s/app-diplom/values-image.yaml
+    
         helm upgrade --install app-diplom ./k8s/app-diplom \
           -f ./k8s/app-diplom/values.yaml \
           -f ./k8s/app-diplom/values-image.yaml \
-          --namespace app-diplom --create-namespace
-
+          --namespace app-diplom --create-namespace \
+          --wait --timeout 5m
+    
         kubectl rollout status deployment/app-zayac -n app-diplom
