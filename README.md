@@ -65,7 +65,11 @@
 2. Сервисный аккаунт для Terraform с достаточными правами создаётся в конигурации [`terraform/01_main/04_service_account_k8s.tf`](./terraform/01_main/04_service_account_k8s.tf)
 SA название: `k8s_sa`, права: `k8s.clusters.agent`, `vpc.publicAdmin`, `container-registry.images.puller`, `load-balancer.admin`, `compute.viewer`
 
-3. 
+3. Вывод: `cat ~/.kube/config`
+
+![screenshot_6](./img/screenshot_6.png)
+
+4. Вывод: `kubectl get pods --all-namespaces`
 
 ---
 

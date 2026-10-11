@@ -34,18 +34,20 @@ jobs:
         with:
           terraform_version: 1.6.0
 
-      # Декодируем SA-ключ из base64 и создаём backend.hcl из секретов
       - name: Prepare credentials
+        env:
+          YC_SA_KEY_B64: ${{ secrets.YC_SA_KEY_JSON }}
+          TF_BACKEND_AK: ${{ secrets.TF_BACKEND_ACCESS_KEY }}
+          TF_BACKEND_SK: ${{ secrets.TF_BACKEND_SECRET_KEY }}
         run: |
           set -euo pipefail
-          echo "${{ secrets.YC_SA_KEY_JSON }}" | base64 -d > /tmp/sa-key.json
+          echo "b64 length: ${#YC_SA_KEY_B64}"
+          echo "$YC_SA_KEY_B64" | base64 -d > /tmp/sa-key.json
+          jq . /tmp/sa-key.json > /dev/null
           chmod 600 /tmp/sa-key.json
 
           mkdir -p ../secret
-          cat > ../secret/backend.hcl <<EOF
-          access_key = "${{ secrets.TF_BACKEND_ACCESS_KEY }}"
-          secret_key = "${{ secrets.TF_BACKEND_SECRET_KEY }}"
-          EOF
+          printf 'access_key = "%s"\nsecret_key = "%s"\n' "$TF_BACKEND_AK" "$TF_BACKEND_SK" > ../secret/backend.hcl
           chmod 600 ../secret/backend.hcl
 
       - name: Terraform Init
@@ -57,6 +59,6 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -no-color -out=tfplan
 
-#      - name: Terraform Apply
-#        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-#        run: terraform apply -auto-approve tfplan
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve tfplan

@@ -74,14 +74,14 @@ resource "yandex_kubernetes_node_group" "k8s_nodes" {
     platform_id = "standard-v3"
 
     resources {
-      cores         = 4
+      cores         = 2 
       memory        = 4
       core_fraction = 20
     }
 
     boot_disk {
       type = "network-hdd"
-      size = 32
+      size = 16
     }
 
     network_interface {
@@ -95,7 +95,7 @@ resource "yandex_kubernetes_node_group" "k8s_nodes" {
     }
 
     scheduling_policy {
-      preemptible = true
+      preemptible = false
     }
 
     metadata = {
@@ -107,7 +107,8 @@ resource "yandex_kubernetes_node_group" "k8s_nodes" {
 
   scale_policy {
     fixed_scale {
-      size = 3
+    #  size = 3
+      size = 2  
     }
   }
 
