@@ -5,6 +5,8 @@ replicaCount: 6
 namespace:
   name: app-diplom
 
+imagePullSecret: yc-registry
+
 image: nginx:1.30.5-alpine
 
 service:

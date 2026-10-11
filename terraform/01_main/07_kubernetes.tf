@@ -13,21 +13,28 @@ resource "yandex_kubernetes_cluster" "k8s_cluster" {
   master {
     version = var.k8s_version
 
-    regional {
-      region = "ru-central1"
+    # РЕГИОНАЛЬНЫЙ МАСТЕР
+    # regional {
+    #   region = "ru-central1"
 
-      location {
-        zone      = yandex_vpc_subnet.public_a.zone
-        subnet_id = yandex_vpc_subnet.public_a.id
-      }
-      location {
-        zone      = yandex_vpc_subnet.public_b.zone
-        subnet_id = yandex_vpc_subnet.public_b.id
-      }
-      location {
-        zone      = yandex_vpc_subnet.public_d.zone
-        subnet_id = yandex_vpc_subnet.public_d.id
-      }
+    #   location {
+    #     zone      = yandex_vpc_subnet.public_a.zone
+    #     subnet_id = yandex_vpc_subnet.public_a.id
+    #    }
+    #   location {
+    #     zone      = yandex_vpc_subnet.public_d.zone
+    #     subnet_id = yandex_vpc_subnet.public_d.id
+    #   }
+    #   location {
+    #     zone      = yandex_vpc_subnet.public_e.zone
+    #     subnet_id = yandex_vpc_subnet.public_e.id
+    #   }
+    # }
+    # РЕГИОНАЛЬНЫЙ МАСТЕР
+
+    zonal {
+      zone      = yandex_vpc_subnet.public_d.zone
+      subnet_id = yandex_vpc_subnet.public_d.id
     }
 
     public_ip          = true
@@ -67,8 +74,8 @@ resource "yandex_kubernetes_node_group" "k8s_nodes" {
     platform_id = "standard-v3"
 
     resources {
-      cores         = 2
-      memory        = 2
+      cores         = 4
+      memory        = 4
       core_fraction = 20
     }
 
@@ -80,9 +87,9 @@ resource "yandex_kubernetes_node_group" "k8s_nodes" {
     network_interface {
       nat = true
       subnet_ids = [
-        yandex_vpc_subnet.public_a.id,
-        yandex_vpc_subnet.public_b.id,
+        # yandex_vpc_subnet.public_a.id,
         yandex_vpc_subnet.public_d.id,
+        yandex_vpc_subnet.public_e.id,
       ]
       security_group_ids = [yandex_vpc_security_group.k8s_nodes.id]
     }
@@ -105,14 +112,14 @@ resource "yandex_kubernetes_node_group" "k8s_nodes" {
   }
 
   allocation_policy {
-    location {
-      zone = var.zone_a
-    }
-    location {
-      zone = var.zone_b
-    }
+    # location {
+    #   zone = var.zone_a
+    # }
     location {
       zone = var.zone_d
+    }
+    location {
+      zone = var.zone_e
     }
   }
 

@@ -17,6 +17,8 @@ spec:
       labels:
         app: app-zayac
     spec:
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecret | default "yc-registry" }}
       containers:
         - name: app-zayac
           image: {{ .Values.image | quote }}

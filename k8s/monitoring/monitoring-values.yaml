@@ -1,0 +1,82 @@
+---
+
+---
+
+prometheusOperator:
+  image:
+    registry: cr.yandex
+    repository: crpehuapesih79m83qdl/prometheus-operator
+    tag: v0.94.1
+  imagePullSecrets:
+    - name: yc-registry
+  prometheusConfigReloader:
+    image:
+      registry: cr.yandex
+      repository: crpehuapesih79m83qdl/prometheus-config-reloader
+      tag: v0.94.1
+  admissionWebhooks:
+    patch:
+      image:
+        registry: cr.yandex
+        repository: crpehuapesih79m83qdl/kube-webhook-certgen
+        tag: 1.8.9
+      imagePullSecrets:
+        - name: yc-registry
+    create:
+      image:
+        registry: cr.yandex
+        repository: crpehuapesih79m83qdl/kube-webhook-certgen
+        tag: 1.8.9
+      imagePullSecrets:
+        - name: yc-registry
+
+prometheus:
+  prometheusSpec:
+    image:
+      registry: cr.yandex
+      repository: crpehuapesih79m83qdl/prometheus
+      tag: v3.15.0-distroless
+    imagePullSecrets:
+      - name: yc-registry
+
+alertmanager:
+  alertmanagerSpec:
+    image:
+      registry: cr.yandex
+      repository: crpehuapesih79m83qdl/alertmanager
+      tag: v0.34.1
+    imagePullSecrets:
+      - name: yc-registry
+
+grafana:
+  image:
+    registry: cr.yandex
+    repository: crpehuapesih79m83qdl/grafana
+    tag: 13.2.3-distroless
+  imagePullSecrets:
+    - name: yc-registry
+  sidecar:
+    image:
+      registry: cr.yandex
+      repository: crpehuapesih79m83qdl/k8s-sidecar
+      tag: 2.13.1
+
+kube-state-metrics:
+  image:
+    registry: cr.yandex
+    repository: crpehuapesih79m83qdl/kube-state-metrics
+    tag: v2.20.0
+  imagePullSecrets:
+    - name: yc-registry
+
+prometheus-node-exporter:
+  image:
+    registry: cr.yandex
+    repository: crpehuapesih79m83qdl/node-exporter
+    tag: v1.12.1-distroless
+  imagePullSecrets:
+    - name: yc-registry
+
+...
+
+...

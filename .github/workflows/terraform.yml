@@ -1,0 +1,62 @@
+name: 'Terraform Apply (01_main)'
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'terraform/01_main/**'
+      - '.github/workflows/terraform.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'terraform/01_main/**'
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./terraform/01_main
+
+    env:
+      TF_VAR_cloud_id:                 ${{ secrets.YC_CLOUD_ID }}
+      TF_VAR_folder_id:                ${{ secrets.YC_FOLDER_ID }}
+      TF_VAR_flow:                     ${{ secrets.TF_FLOW }}
+      TF_VAR_service_account_key_file: /tmp/sa-key.json
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.0
+
+      # Декодируем SA-ключ из base64 и создаём backend.hcl из секретов
+      - name: Prepare credentials
+        run: |
+          set -euo pipefail
+          echo "${{ secrets.YC_SA_KEY_JSON }}" | base64 -d > /tmp/sa-key.json
+          chmod 600 /tmp/sa-key.json
+
+          mkdir -p ../secret
+          cat > ../secret/backend.hcl <<EOF
+          access_key = "${{ secrets.TF_BACKEND_ACCESS_KEY }}"
+          secret_key = "${{ secrets.TF_BACKEND_SECRET_KEY }}"
+          EOF
+          chmod 600 ../secret/backend.hcl
+
+      - name: Terraform Init
+        run: terraform init -backend-config=../secret/backend.hcl
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -no-color -out=tfplan
+
+#      - name: Terraform Apply
+#        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+#        run: terraform apply -auto-approve tfplan

@@ -31,13 +31,6 @@ variable "zone_a" {
   nullable    = false
 }
 
-variable "zone_b" {
-  description = "Зона доступности B вYandex Cloud"
-  type        = string
-  default     = "ru-central1-b"
-  nullable    = false
-}
-
 variable "zone_d" {
   description = "Зона доступности D вYandex Cloud"
   type        = string
@@ -45,9 +38,16 @@ variable "zone_d" {
   nullable    = false
 }
 
+variable "zone_e" {
+  description = "Зона доступности B вYandex Cloud"
+  type        = string
+  default     = "ru-central1-e"
+  nullable    = false
+}
+
 variable "k8s_version" {
   description = "Версия Kubernetes"
   type        = string
-  default     = "1.30"
+  default     = "1.31"
   nullable    = false
 }

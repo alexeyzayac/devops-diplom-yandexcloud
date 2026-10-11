@@ -13,18 +13,18 @@ resource "yandex_vpc_subnet" "public_a" {
   v4_cidr_blocks = ["192.168.10.0/24"]
 }
 
-resource "yandex_vpc_subnet" "public_b" {
-  description    = "Публичная подсеть B для доступа в интернет"
-  name           = "${var.flow}-public-b"
-  zone           = var.zone_b
-  network_id     = yandex_vpc_network.main.id
-  v4_cidr_blocks = ["192.168.20.0/24"]
-}
-
 resource "yandex_vpc_subnet" "public_d" {
   description    = "Публичная подсеть D для доступа в интернет"
   name           = "${var.flow}-public-d"
   zone           = var.zone_d
+  network_id     = yandex_vpc_network.main.id
+  v4_cidr_blocks = ["192.168.20.0/24"]
+}
+
+resource "yandex_vpc_subnet" "public_e" {
+  description    = "Публичная подсеть B для доступа в интернет"
+  name           = "${var.flow}-public-e"
+  zone           = var.zone_e
   network_id     = yandex_vpc_network.main.id
   v4_cidr_blocks = ["192.168.30.0/24"]
 }

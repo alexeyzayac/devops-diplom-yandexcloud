@@ -6,9 +6,9 @@ output "vpc_id" {
 
 output "public_subnet_ids" {
   value = {
-    a = yandex_vpc_subnet.public_a.id
-    b = yandex_vpc_subnet.public_b.id
+  #  a = yandex_vpc_subnet.public_a.id
     d = yandex_vpc_subnet.public_d.id
+    e = yandex_vpc_subnet.public_e.id
   }
 }
 
