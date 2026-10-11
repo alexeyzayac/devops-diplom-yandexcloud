@@ -10,6 +10,7 @@ Makefile.vars
 contrib/offline/offline-files
 contrib/offline/offline-files.tar.gz
 .idea
+actions-runner
 .vscode
 .tox
 .cache
