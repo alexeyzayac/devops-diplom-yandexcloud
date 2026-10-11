@@ -47,6 +47,13 @@ jobs:
     
         kubectl cluster-info
     
+        STATUS=$(helm status app-diplom -n app-diplom -o json 2>/dev/null | jq -r '.info.status // empty')
+        if [[ "$STATUS" == "pending-install" || "$STATUS" == "pending-upgrade" || "$STATUS" == "pending-rollback" ]]; then
+          echo "Release app-diplom is stuck in $STATUS — cleaning up"
+          helm uninstall app-diplom -n app-diplom || true
+          kubectl delete secret -n app-diplom -l owner=helm,name=app-diplom --ignore-not-found=true
+        fi
+    
         echo "image: cr.yandex/${{ secrets.REGISTRY_ID }}/diplom-app:${{ env.TAG }}" \
           > k8s/app-diplom/values-image.yaml
     
