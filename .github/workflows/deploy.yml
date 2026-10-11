@@ -47,7 +47,6 @@ jobs:
 
         kubectl cluster-info
 
-        # Если релиз в "pending" — сносим его перед новым деплоем
         STATUS=$(helm status app-diplom -n app-diplom -o json 2>/dev/null | jq -r '.info.status // empty')
         if [[ "$STATUS" == pending-* ]]; then
           echo "Release app-diplom is stuck in $STATUS — cleaning up"
@@ -63,10 +62,8 @@ jobs:
           -f ./k8s/app-diplom/values-image.yaml \
           --namespace app-diplom --create-namespace
 
-        # Проверяем именно Deployment — он должен быть готов
         kubectl rollout status deployment/app-zayac -n app-diplom --timeout=3m
 
-        # Показываем, как достучаться до сервиса
         echo "Service:"
         kubectl get svc -n app-diplom app-zayac
         echo ""
