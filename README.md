@@ -133,5 +133,9 @@ helm upgrade --install kube-prometheus prometheus-community/kube-prometheus-stac
 
 ---
 
-## Этап 5. Подготовка cистемы мониторинга и деплой приложения
+## Этап 5. Установка и настройка CI/CD
+
+PS: был установлен actions-runner на локальную машину, на которой поднят miniube
+
+
 

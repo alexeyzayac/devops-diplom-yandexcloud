@@ -10,7 +10,7 @@ imagePullSecret: yc-registry
 image: nginx:1.30.5-alpine
 
 service:
-  type: LoadBalancer
+  type: NodePort
   port: 80
   targetPort: 80
 
