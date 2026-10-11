@@ -4,7 +4,7 @@
 
 REGISTRY-ID ?= changeme
 IMAGE_NAME  ?= diplom-app
-TAG         ?= v2
+TAG         ?= v1
 
 DOCKERFILE  := app.Dockerfile
 IMAGE       := cr.yandex/$(REGISTRY-ID)/$(IMAGE_NAME):$(TAG)	
